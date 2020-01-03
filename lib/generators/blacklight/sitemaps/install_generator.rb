@@ -10,6 +10,11 @@ module Blacklight::Sitemaps
       copy_file 'sitemap_controller.rb', 'app/controllers/sitemap_controller.rb'
     end
 
+    def install_solrconfig_xml
+      copy_file 'solrconfig.xml', 'solr/conf/solrconfig.xml', force: true
+    end
+
+
     def install_routing_concern
       route('resources :sitemap, defaults: { format: :xml }, only: [:index, :show]')
     end

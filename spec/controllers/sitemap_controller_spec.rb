@@ -15,7 +15,7 @@ RSpec.describe SitemapController, type: :controller do
 
     it 'returns documents in response to the query' do
       sitemap.params = { id: 0 }
-      expect(sitemap.show.response[:body]).to include '"numFound":29'
+      expect(sitemap.show.response[:body]).to include '"numFound":1'
     end
   end
 
@@ -34,7 +34,7 @@ RSpec.describe SitemapController, type: :controller do
 
     it 'renders appropriate XML in the show view' do
       get :show, params: { id: 0 }, format: 'xml'
-      expect(response.body).to include '<loc>http://test.host/catalog/125041</loc>'
+      expect(response.body).to include '<loc>http://test.host/catalog/2008305903</loc>'
     end
   end
 end

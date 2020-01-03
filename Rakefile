@@ -31,6 +31,7 @@ task ci: ['engine_cart:generate'] do
       within_test_app do
         system 'bundle install'
         system 'bundle exec rake db:migrate'
+        system 'bundle exec rails blacklight:index:seed'
       end
 
       # run the tests
