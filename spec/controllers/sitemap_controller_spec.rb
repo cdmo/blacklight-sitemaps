@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe SitemapController, type: :controller do
+  let(:sitemap) { SitemapController.new }
   describe 'calculations and responses from solr' do
-    let(:sitemap) { SitemapController.new }
-
     before do
       allow(sitemap).to receive(:max_documents).and_return(7_500_000)
     end
@@ -17,6 +16,16 @@ RSpec.describe SitemapController, type: :controller do
     it 'returns documents in response to the query' do
       sitemap.params = { id: 0 }
       expect(sitemap.show.response[:body]).to include '"numFound":29'
+    end
+  end
+
+  describe 'when there are no documents in index' do
+    before do
+      allow(sitemap).to receive(:max_documents).and_return(0)
+    end
+
+    it 'index page renders with empty access list' do
+      expect(sitemap.index.count).to eq 0
     end
   end
 
