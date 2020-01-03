@@ -18,3 +18,23 @@ require 'bundler/gem_tasks'
 
 require 'engine_cart/rake_task'
 
+require 'solr_wrapper'
+
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+
+task ci: ['engine_cart:generate'] do
+  ENV['environment'] = 'test'
+
+  SolrWrapper.wrap(port: '8983') do |solr|
+    solr.with_collection(name: 'blacklight-core', dir: File.join(File.expand_path(File.dirname(__FILE__)), '.internal_test_app', 'solr', 'conf')) do
+      within_test_app do
+        system 'bundle install'
+        system 'bundle exec rake db:migrate'
+      end
+
+      # run the tests
+      Rake::Task['spec'].invoke
+    end
+  end
+end
