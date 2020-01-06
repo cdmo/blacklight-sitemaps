@@ -24,6 +24,6 @@ class TestAppGenerator < Rails::Generators::Base
   end
 
   def install_engine
-    generate 'blacklight-sitemaps:install'
+    generate 'blacklight:sitemaps:install'
   end
 end
